@@ -9,8 +9,8 @@ package nodenet;
  */
 public class Gerechtigkeit implements NodeBehavior {
 	
-	protected Object paket = null;
-	int kanalOutNr = 0, kanalInNr = 0;
+	private Object paket = null;
+	private int kanalOutNr = 0, kanalInNr = 0;
 
 
 
@@ -32,8 +32,8 @@ public class Gerechtigkeit implements NodeBehavior {
 	  	try {
 			paket = kanal.elementAt(kanalInNr).readObject(); //Packet empfangen
 		} 
-    	catch (ChannelEmptyException e) {			} 
-    	catch (ChannelDisabledException e) {			}
+    	catch (ChannelEmptyException e) {System.out.println("Eingang leer");;	} 
+    	catch (ChannelDisabledException e) {System.out.println("Eingang deaktiviert");	}
 		
 		kanalInNr = (kanalInNr+1) % kanal.size();
 	}
@@ -41,14 +41,14 @@ public class Gerechtigkeit implements NodeBehavior {
 	
 	
 	// Methode zum schreiben in den Kanal
-	protected void schreiben(OutputChannelVector kanal) {
+	private void schreiben(OutputChannelVector kanal) {
 		if ((kanal.size() == 0)){ return;	}
 		
         try {
 			kanal.elementAt(kanalOutNr).writeObject(paket);	//Paket versenden
 		} 
-	    catch (ChannelFullException e) {	} 
-	    catch (ChannelDisabledException e) {		} 
+	    catch (ChannelFullException e) {return;	} 
+	    catch (ChannelDisabledException e) {return;		} 
 	    paket = null;
 	    kanalOutNr = (kanalOutNr+1) % kanal.size();
 	}
