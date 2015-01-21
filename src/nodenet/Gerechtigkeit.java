@@ -13,9 +13,8 @@ public class Gerechtigkeit implements NodeBehavior {
 	private int kanalOutNr = 0, kanalInNr = 0;
 
 	@Override
-	public void transmitPacket(InputChannelVector inputChannels,
-			OutputChannelVector outputChannels) {
-
+	public void transmitPacket(InputChannelVector inputChannels, OutputChannelVector outputChannels) {
+		if (inputChannels.size() == 0 || outputChannels.size() == 0) return;
 		if (paket != null) {
 			schreiben(outputChannels);
 		} else {
@@ -25,9 +24,6 @@ public class Gerechtigkeit implements NodeBehavior {
 	}	
 
 	private void lesen(InputChannelVector kanal) {
-		if ((kanal.size() == 0)) {
-			return;
-		}
 		kanalInNr = (kanalInNr + 1) % kanal.size();
 		try {
 			paket = kanal.elementAt(kanalInNr).readObject(); // Packet empfangen
@@ -45,9 +41,6 @@ public class Gerechtigkeit implements NodeBehavior {
 
 	// Methode zum schreiben in den Kanal
 	private void schreiben(OutputChannelVector kanal) {
-		if ((kanal.size() == 0)) {
-			return;
-		}
 		kanalOutNr = (kanalOutNr + 1) % kanal.size();
 		try {
 			kanal.elementAt(kanalOutNr).writeObject(paket); // Paket versenden

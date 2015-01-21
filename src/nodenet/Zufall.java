@@ -9,15 +9,14 @@ package nodenet;
  */
 public class Zufall implements NodeBehavior {
 	
-	protected Object paket = null;
-	int kanalOutNr = 0, kanalInNr = 0;
+	private Object paket = null;
+	private int kanalOutNr = 0, kanalInNr = 0;
 
 
 
 	@Override
-	public void transmitPacket(InputChannelVector inputChannels,
-			OutputChannelVector outputChannels) {
-	    
+	public void transmitPacket(InputChannelVector inputChannels, OutputChannelVector outputChannels) {
+		if (inputChannels.size() == 0 || outputChannels.size() == 0) return;
 	    if (paket != null){	schreiben(outputChannels);	}
 	    else {	lesen(inputChannels);	}
 	    
@@ -27,7 +26,6 @@ public class Zufall implements NodeBehavior {
 
 	//Methode um Pakete aus dem Kanal zu lesen
 	private void lesen(InputChannelVector kanal) {
-		if ((kanal.size() == 0)){ return;	}
 		kanalInNr = (int) (Math.random() * kanal.size());
 	  	try {
 			paket = kanal.elementAt(kanalInNr).readObject(); //Packet empfangen
@@ -39,8 +37,7 @@ public class Zufall implements NodeBehavior {
 	
 	
 	// Methode zum schreiben in den Kanal
-	protected void schreiben(OutputChannelVector kanal) {
-		if ((kanal.size() == 0)){ return;	}
+	private void schreiben(OutputChannelVector kanal) {
 		kanalOutNr = (int) (Math.random() * kanal.size());
         try {
 			kanal.elementAt(kanalOutNr).writeObject(paket);	//Paket versenden
