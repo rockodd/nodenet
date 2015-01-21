@@ -25,7 +25,7 @@ public class Gerechtigkeit implements NodeBehavior {
 
 	
 
-		//dwsdqwedr
+		//dwsdqw
 	//Methode um Pakete aus dem Kanal zu lesen
 	private void lesen(InputChannelVector kanal) {
 		if ((kanal.size() == 0)){ return;	}
